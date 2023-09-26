@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const User = require('./../models/userModal');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('../utils/appError');
+const sendEmail = require('../utils/email');
 
 const signToken = id => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -107,5 +108,16 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   }
   const resetToken = user.createPasswordResetToken();
   await user.save({ validateBeforeSave: false }); //so u can update the the reset expires date
+  const resetURL = `${req.protocol}://${req.get(
+    'host'
+  )}/api/v1/users/resetPassword/${resetToken}`;
+  const message = `Forget your password? Submit a PATACh request with your new password and passwordConfirm to: ${resetURL}.\nIf you didn't forget your password, please ignore this email`;
+  await sendEmail({
+    email: user.email,
+    subject: 'YOur password reset token (valid for 10 min)',
+    message
+  });
+  res.status(200).json({ status: 'success', message: 'Token sent to mail' });
 });
+
 exports.resetPassword = (req, res, next) => {};
