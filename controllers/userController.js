@@ -1,5 +1,6 @@
 const User = require('../models/userModal');
 const catchAsync = require('./../utils/catchAsync');
+const AppError = require('../utils/appError');
 
 exports.getAllUsers = catchAsync(async (req, res, next) => {
   const users = await User.find();
@@ -13,6 +14,9 @@ exports.getAllUsers = catchAsync(async (req, res, next) => {
     }
   });
 });
+
+
+
 exports.getUser = (req, res) => {
   res.status(500).json({
     status: 'error',
