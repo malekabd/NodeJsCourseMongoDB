@@ -23,7 +23,7 @@ const createSendToken = (user, statusCode, res) => {
   const token = signToken(user._id);
 
   res.cookie('jwt', token, cookieOptions);
-user.password = undefined //so the password doesn't appear in the searching results
+  user.password = undefined; //so the password doesn't appear in the searching results
   res.status(statusCode).json({
     status: 'success',
     token,
