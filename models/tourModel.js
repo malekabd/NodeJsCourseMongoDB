@@ -107,6 +107,14 @@ tourSchema.virtual('durationWeeks').get(function() {
   return this.duration / 7;
 });
 
+// Virtual Populate
+//this line of code, it 's a better so u don't have to do child referencing in the schema so u don't end up with a large array of children
+tourSchema.virtual('reviews', {
+  ref: 'Review',
+  foreignField: 'tour', //this is the field stored in the review sechema
+  localField: '_id'
+});
+
 // DOCUMENT MIDDLEWARE: runs before .save() and .create()
 tourSchema.pre('save', function(next) {
   this.slug = slugify(this.name, { lower: true });
