@@ -1,10 +1,20 @@
 const express = require('express');
 const tourController = require('./../controllers/tourController');
 const authController = require('./../controllers/authController');
-const reviewController = require('./../controllers/reviewController');
+const reviewRouter = require('./../routes/reviewRoutes');
 
 const router = express.Router();
+//we will use merge params insted of this
+/* router
+  .route('/:tourId/reviews')
+  .post(
+    authController.protect,
+    authController.restrictTo('user'),
+    reviewController.createReview
+  ); */
 
+//here is the merge routes concept, so we don't duplicate codes
+router.use('/:tourId/reviews', reviewRouter);
 // router.param('id', tourController.checkID);
 
 router
@@ -29,11 +39,4 @@ router
     tourController.deleteTour
   );
 
-router
-  .route('/:tourId/reviews')
-  .post(
-    authController.protect,
-    authController.restrictTo('user'),
-    reviewController.createReview
-  );
 module.exports = router;
