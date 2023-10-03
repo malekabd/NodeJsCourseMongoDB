@@ -6,18 +6,19 @@ const router = express.Router();
 
 router.post('/signup', authController.signup);
 router.post('/login', authController.login);
-
 router.post('/forgotPassword', authController.forgotPassword);
 router.patch('/resetPassword/:token', authController.resetPassword);
-
-router.patch('/updateMe', authController.protect, userController.updateMe);
-router.delete('/deleteMe', authController.protect, userController.deleteMe);
+router.use(authController.protect); //this middleware will protect any route that comes after it
+router.patch('/updatePassword', authController.updatePassword);
 
 router.route('/me').get(
-  authController.protect,
   userController.getMe, //this middleware will allow to transport the logged user id in to the params id so u an use it with the need to create a custom function
   userController.getUser
 );
+router.patch('/updateMe', userController.updateMe);
+router.delete('/deleteMe', userController.deleteMe);
+
+router.use(authController.restrictTo('admin'));
 
 router
   .route('/')
