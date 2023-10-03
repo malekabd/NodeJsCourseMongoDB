@@ -13,6 +13,12 @@ router.patch('/resetPassword/:token', authController.resetPassword);
 router.patch('/updateMe', authController.protect, userController.updateMe);
 router.delete('/deleteMe', authController.protect, userController.deleteMe);
 
+router.route('/me').get(
+  authController.protect,
+  userController.getMe, //this middleware will allow to transport the logged user id in to the params id so u an use it with the need to create a custom function
+  userController.getUser
+);
+
 router
   .route('/')
   .get(userController.getAllUsers)
