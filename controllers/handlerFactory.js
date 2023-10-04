@@ -79,6 +79,7 @@ exports.getAll = Modal =>
       .limitFields()
       .paginate();
     const doc = await features.query;
+    //const doc = await features.query.explain(); // it shows some details about the data which helps to use indexing
 
     // SEND RESPONSE
     res.status(200).json({
