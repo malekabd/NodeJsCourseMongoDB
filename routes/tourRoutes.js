@@ -42,7 +42,7 @@ router
     authController.restrictTo('admin', 'lead-guide', 'guide'),
     tourController.createTour
   );
-
+router.route('/distances/:latlng/unit/:unit').get(tourController.getDistances);
 router
   .route('/:id')
   .get(tourController.getTour)

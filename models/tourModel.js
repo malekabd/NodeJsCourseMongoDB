@@ -166,12 +166,13 @@ tourSchema.post(/^find/, function(docs, next) {
 });
 
 // AGGREGATION MIDDLEWARE
-tourSchema.pre('aggregate', function(next) {
+// this code was disabled because of the near distance aggregate 
+/* tourSchema.pre('aggregate', function(next) {
   this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
 
   console.log(this.pipeline());
   next();
-});
+}); */
 
 const Tour = mongoose.model('Tour', tourSchema);
 
